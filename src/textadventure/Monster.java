@@ -6,15 +6,18 @@ public class Monster extends Entity {
 		
 		super(name, isMale);
 		
-	}
+	};
 	
-	@Override
-	public String toString() {
+	/*
+	public static void monsterArray() {
 		
-		String output = getName();
+		Monster walkyre = new Monster("Walkyre", false);
+		Monster zombie = new Monster("Zombie", true);
+		Monster ghul = new Monster("Ghul", true);
+		Monster ork = new Monster("Ork", true);
+		Monster[] roster = {walkyre, zombie, ghul, ork};
 		
-		return output;
-		
-	}	
+	};
+	*/
 	
 }

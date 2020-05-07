@@ -4,9 +4,10 @@ public class Victory {
 
 	public static void victory() {
 		
-		/*
-		System.out.println("Du verlässt das Dungeon und hast " + monstersSlain + " Monster besiegt!");
-		System.out.println();
+		System.out.println("\t# Du verlässt das Dungeon und hast " + Game.monstersSlain + " Monster besiegt. #\n"  
+						 + "\t# Du hast " + Game.usedHealthPotions + "-mal Heiltränke genutzt. #\n"
+						 + "\t# Du bist " + Game.runAway + "-mal weggelaufen. #\n");
+		System.out.println("\t# Deine Punktzahl beträgt " + Game.score + " #");	
 		System.out.println("   .\n" + 
 				"  / \\\n" + 
 				"  | |\n" + 
@@ -27,7 +28,7 @@ public class Victory {
 				"         \\ /   | \\___\n" + 
 				"         / |   \\_____\\\n" + 
 				"         `-'");
-		*/
+		
 	}
 
 }

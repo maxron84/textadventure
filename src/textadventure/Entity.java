@@ -1,12 +1,10 @@
 package textadventure;
 
-public class Entity {
+public abstract class Entity {
 	
-	// Initialisierte Variablen
 	private String name;
 	private boolean isMale; // Geschlecht
 	
-	// G & S
     public String getName() {
 		return name;
 	}

@@ -5,27 +5,34 @@ import java.util.Scanner;
 
 /*
  * TODO:
- * Alternative zum Labeln finden
+ * [ ] Alternative zum Labeln finden
  * [X] Geschlechter unterscheiden mit boolean und über Arrayindex dynamisch ansprechen
- * Array mit Monstern aus einem größeren Array von außen befüllen lassen
- * 2 Charakterklassen mit unterschiedlichen Verhalten ins Game einlassen
- * Charakter 1 + Angriff - Heiltrankchance
- * Charakter 2 - Angriff + Heiltrankchance
+ * [ ] Array mit Monstern aus einem größeren Array von außen befüllen lassen
+ * [ ] 2 Charakterklassen mit unterschiedlichen Verhalten ins Game einlassen
+ * [ ] Charakter 1 + Angriff - Heiltrankchance
+ * [ ] Charakter 2 - Angriff + Heiltrankchance
  * [X] Maximale Spieler HP auf 100 begrenzen
- * Score Variable (int monstersSlain) mit abschließendem Wert in eigenständiger Klassenmethode aufrufen
+ * [X] Score Variable (int monstersSlain, int usedHealthPotions, float score, float deathPenalty) 
+ * 	   mit abschließendem Wert in Klassenvariablen von außen aufrufen
+ * [ ] Highscore Tabelle in Datei schreiben lassen
  * 
  */
 
 public class Game {
+	
+	// Klassenvariablen
+	static int monstersSlain = 0;
+	static int usedHealthPotions = 0;
+	static int runAway = 0;
+	static int score = 0;
+	static int deathPenalty = 3;
 
+	
+	// Prozedurale Spielmethode
 	public static void game() {
 		
-		// Testbereich Anfang //
-		
-		// Testbereich Ende //
-		
 		// Systemobjekte
-		Scanner stringInput = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		Random randomizer = new Random(); // Diese Methode gibt eine Zufallszahl zwischen 0 und (Argument) aus
 		
 		// Gamevariablen
@@ -39,17 +46,23 @@ public class Game {
 		
 		// Playervariablen
 		int playerHealth = 100;
-		int attackDamage = 50;
+		int attackDamageC1 = 42;
+//		int attackDamageC2 = 27;
 		int numHealthPotions = 3;
 		int healthPotionHealAmount = 30;
-		int healthPotionDropChance = 50; // Prozentwert
-		int monstersSlain = 0;
+		int healthPotionDropC1 = 67; // Threshold
+//		int healthPotionDropC2 = 33; // Threshold
 		boolean running = true;
 		
+		// Testbereich Anfang //
+		
+		
+		
+		// Testbereich Ende //
 
 		
 		START: // Label
-		while (running != false || running == true) /* (~0 v 1) */ {
+		while (running != false || running == true) /* (~0 + 1) */ {
 			
 			int monsterHealth = randomizer.nextInt(maxMonsterHealth);
 			Monster monster = roster[randomizer.nextInt(roster.length)];
@@ -58,11 +71,26 @@ public class Game {
 				
 				System.out.println();
 				System.out.println("\t# Eine " + monster.getName() + " erscheint! #\n");
+				
+				if (monsterHealth == 0) {
+					
+					System.out.println();
+					System.out.println("\t# ... und fällt vor Schreck tot um! #\n");
+					
+				}
 
 			} else {
 				
 				System.out.println();
 				System.out.println("\t# Ein " + monster.getName() + " erscheint! #\n");
+				
+				if (monsterHealth == 0) {
+					
+					System.out.println();
+					System.out.println("\t# ... und fällt vor Schreck tot um! #\n");
+					
+				}
+				
 			}
 			
 			while (monsterHealth > 0) {
@@ -74,11 +102,11 @@ public class Game {
 				System.out.println("\t2. Heiltrank einnehmen");
 				System.out.println("\t3. Wegrennen");
 				
-				String input = stringInput.nextLine();
+				String input = scan.nextLine();
 				
 				if(input.equals("1")) {
 					
-					int damageDealt = randomizer.nextInt(attackDamage);
+					int damageDealt = randomizer.nextInt(attackDamageC1);
 					int damageTaken = randomizer.nextInt(monsterAttackDamage);
 					
 					monsterHealth -= damageDealt;
@@ -118,6 +146,7 @@ public class Game {
 								+ "\n\t> Du hast jetzt " + playerHealth + " HP."
 								+ "\n\t> Es sind noch " + numHealthPotions + " Heiltränke übrig.");
 						System.out.println();
+						usedHealthPotions++;
 						
 						} else if (playerHealth >= 70 && playerHealth < 100) {
 							
@@ -127,6 +156,7 @@ public class Game {
 									+ "\n\t> Du hast jetzt " + playerHealth + " HP."
 									+ "\n\t> Es sind noch " + numHealthPotions + " Heiltränke übrig.");
 							System.out.println();
+							usedHealthPotions++;
 							
 							
 						} else if (playerHealth >= 100) {
@@ -146,7 +176,13 @@ public class Game {
 				
 				else if (input.equals("3")) {
 					
-					System.out.println("\tDu läufst weg und hängst " + monster.getName() + " gerade so ab!");
+					System.out.println("------------------------------------------------------------------------");
+					System.out.println();
+					System.out.println(" # Du läufst weg und hängst " + monster.getName() + " gerade so ab! # ");
+					System.out.println();
+					System.out.println("------------------------------------------------------------------------");
+					
+					runAway++;
 					
 					continue START; // Zurück zum Start Label
 					
@@ -162,14 +198,18 @@ public class Game {
 			
 			if (playerHealth < 1) {
 				
+				score = (monstersSlain * 2) - (usedHealthPotions + runAway);
+				deathPenalty = 3;
+				
 				System.out.println();				
-				System.out.println("# " + monster.getName() + " hat dich erledigt! #");
+				System.out.println(monster.getName() + " hat dich erledigt!");
+				System.out.println();
 				Death.death();
 				break;
 				
 			}
 			
-			System.out.println("-------------------------------------------------------------------------------------------");
+			System.out.println("------------------------------------------------------------------------");
 			System.out.println("");
 			
 			if (monster.isMale() == false) {
@@ -186,7 +226,7 @@ public class Game {
 			
 			System.out.println(" # " + playerHealth + " HP übrig. #");
 			
-			if (randomizer.nextInt(100) > healthPotionDropChance) {
+			if (randomizer.nextInt(100) > healthPotionDropC1) {
 				
 				numHealthPotions++;
 				System.out.println(" # " + monster.getName() + " hat einen Heiltrank fallen lassen! # ");
@@ -195,18 +235,18 @@ public class Game {
 			}
 			
 			System.out.println("");
-			System.out.println("-------------------------------------------------------------------------------------------");
+			System.out.println("------------------------------------------------------------------------");
 			System.out.println("");
 			System.out.println("Was möchtest du tun?");
 			System.out.println("1. Kampf fortsetzen");
 			System.out.println("2. Dungeon verlassen");
 			
-			String input = stringInput.nextLine();
+			String input = scan.nextLine();
 			
 			while(!input.equals("1") && !input.equals("2")) {
 				
 				System.out.println("Falsche Eingabe!");
-				input = stringInput.nextLine();
+				input = scan.nextLine();
 				
 			}
 			
@@ -219,35 +259,17 @@ public class Game {
 			
 			else if(input.equals("2")) {
 				
-				System.out.println("Du verlässt das Dungeon und hast " + monstersSlain + " Monster besiegt!");
-				System.out.println();
-				System.out.println("   .\n" + 
-						"  / \\\n" + 
-						"  | |\n" + 
-						"  |.|\n" + 
-						"  |.|\n" + 
-						"  |:|      __\n" + 
-						",_|:|_,   /  )\n" + 
-						"  (Oo    / _I_\n" + 
-						"   +\\ \\  || __|\n" + 
-						"      \\ \\||___|\n" + 
-						"        \\ /.:.\\-\\\n" + 
-						"         |.:. /-----\\\n" + 
-						"         |___|::oOo::|\n" + 
-						"         /   |:<_T_>:|\n" + 
-						"        |_____\\ ::: /\n" + 
-						"         | |  \\ \\:/\n" + 
-						"         | |   | |\n" + 
-						"         \\ /   | \\___\n" + 
-						"         / |   \\_____\\\n" + 
-						"         `-'");
+				score = (monstersSlain * 2) - (usedHealthPotions + runAway);				
+				Victory.victory();				
 				break;
 				
 			}
 			
 		};
 		
-		stringInput.close();
+
+		
+		scan.close();
 		
 	}
 

@@ -4,7 +4,10 @@ public class Death {
 
 	public static void death() {
 		
-		System.out.println();
+		System.out.println("\t# Du hast " + Game.monstersSlain + " Monster besiegt. #\n" 
+						 + "\t# Du hast " + Game.usedHealthPotions + "-mal Heiltränke genutzt. #\n"
+		 				 + "\t# Du bist " + Game.runAway + "-mal weggelaufen. #\n");	
+		System.out.println("\t# Deine Punktzahl beträgt " + (Game.score - Game.deathPenalty) + " #");
 		System.out.println("                                                                 _\r\n" + 
 				"                                                              _( (~\\\r\n" + 
 				"       _ _                        /                          ( \\> > \\\r\n" + 
@@ -29,6 +32,6 @@ public class Death {
 				"                                   ;;;;;;,;;;;;;;;,;");
 		System.out.println();
 		
-	}
+	};
 
 }

@@ -4,11 +4,11 @@ public class App {
 
 	public static void main(String[] args) {
 		
-		System.out.println("-------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------");
 		System.out.println();
 		System.out.println("\t### Willkommen beim Java Textadventure Version 1.2! ### ");
 		System.out.println();
-		System.out.println("-------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------");
 		System.out.println("       _,.\r\n" + 
 				"    ,` -.)\r\n" + 
 				"   ( _/-\\\\-._\r\n" + 
@@ -29,7 +29,7 @@ public class App {
 				"   `Y-.____(__}\r\n" + 
 				"    |     {__)\r\n" + 
 				"          ()");
-		System.out.println("-------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------");
 		System.out.println();
 		
 		Game.game();
